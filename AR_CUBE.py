@@ -126,35 +126,29 @@ while(cap.isOpened()):
         if(tagGrid[2][2] == 0 and tagGrid[2][5] == 0 and tagGrid[5][2] == 0 and tagGrid[5][5] == 1):
             orientation = 0
             Id = tagGrid[3][3]*1 + tagGrid[4][3]*8 + tagGrid[4][4]*4 + tagGrid[3][4]*2
-            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [0,lenaImage.shape[0]-1,lenaImage.shape[0]-1,0]
             qreference_corners_y = [0,0,lenaImage.shape[0]-1,lenaImage.shape[0]-1]
         elif(tagGrid[2][2] == 1 and tagGrid[2][5] == 0 and tagGrid[5][2] == 0 and tagGrid[5][5] == 0):
             orientation = 180
             Id = tagGrid[3][3]*4 + tagGrid[4][3]*2 + tagGrid[4][4] + tagGrid[3][4]*8
-            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [lenaImage.shape[0]-1,0,0,lenaImage.shape[0]-1]
             reference_corners_y = [lenaImage.shape[0]-1,lenaImage.shape[0]-1,0,0]
         elif(tagGrid[2][2] == 0 and tagGrid[2][5] == 1 and tagGrid[5][2] == 0 and tagGrid[5][5] == 0):
             orientation = 90
             Id = tagGrid[3][3]*2 + tagGrid[3][4]*4 + tagGrid[4][4]*8 + tagGrid[4][3]*1
-            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [lenaImage.shape[0]-1,lenaImage.shape[0]-1,0,0]
             reference_corners_y = [0,lenaImage.shape[0]-1,lenaImage.shape[0]-1,0]
         elif(tagGrid[2][2] == 0 and tagGrid[2][5] == 0 and tagGrid[5][2] == 1 and tagGrid[5][5] == 0):
             orientation = -90
             Id = tagGrid[3][3]*8 + tagGrid[3][4] + tagGrid[4][4]*2 + tagGrid[4][3]*4
-            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [0,0,lenaImage.shape[0]-1,lenaImage.shape[0]-1]
             reference_corners_y = [lenaImage.shape[0]-1,0,0,lenaImage.shape[0]-1]
         else:
             orientation = None
-
-        #print(Id)
         
         A  = np.array([
                    [ corner_points_x[0], corner_points_y[0], 1 , 0  , 0 , 0 , -reference_corners_x[0]*corner_points_x[0], -reference_corners_x[0]*corner_points_y[0], -reference_corners_x[0]],
@@ -209,7 +203,7 @@ while(cap.isOpened()):
         K = np.transpose(K)
         K_inv = np.linalg.inv(K)
         lamda = 1/((np.linalg.norm(np.dot(K_inv,h1))+np.linalg.norm(np.dot(K_inv,h2)))/2)
-        Btilde = np.dot(K_inv,H_inverse)
+        Btilde = np.dot(K_inv,H)
         if np.linalg.det(Btilde)>0:
             B = Btilde
         else:
@@ -241,18 +235,18 @@ while(cap.isOpened()):
         cv2.circle(arTag,(int(x6/z6),int(y6/z6)), 5, (0,255,255), -1)
         cv2.circle(arTag,(int(x7/z7),int(y7/z7)), 5, (0,255,255), -1)
         cv2.circle(arTag,(int(x8/z8),int(y8/z8)), 5, (0,255,255), -1)
-        cv2.line(arTag,(int(x1/z1),int(y1/z1)),(int(x5/z5),int(y5/z5)), (0,255,255), 4)
+        cv2.line(arTag,(int(x1/z1),int(y1/z1)),(int(x5/z5),int(y5/z5)), (255,255,0), 4)
         cv2.line(arTag,(int(x2/z2),int(y2/z2)),(int(x6/z6),int(y6/z6)), (0,255,255), 4)
-        cv2.line(arTag,(int(x3/z3),int(y3/z3)),(int(x7/z7),int(y7/z7)), (0,255,255), 4)
-        cv2.line(arTag,(int(x4/z4),int(y4/z4)),(int(x8/z8),int(y8/z8)), (0,255,255), 4)
-        cv2.line(arTag,(int(x1/z1),int(y1/z1)),(int(x2/z2),int(y2/z2)), (0,255,255), 4)
-        cv2.line(arTag,(int(x1/z1),int(y1/z1)),(int(x3/z3),int(y3/z3)), (0,255,255), 4)
-        cv2.line(arTag,(int(x2/z2),int(y2/z2)),(int(x4/z4),int(y4/z4)), (0,255,255), 4)
+        cv2.line(arTag,(int(x3/z3),int(y3/z3)),(int(x7/z7),int(y7/z7)), (0,150,255), 4)
+        cv2.line(arTag,(int(x4/z4),int(y4/z4)),(int(x8/z8),int(y8/z8)), (255,255,255), 4)
+        cv2.line(arTag,(int(x1/z1),int(y1/z1)),(int(x2/z2),int(y2/z2)), (0,155,155), 4)
+        cv2.line(arTag,(int(x1/z1),int(y1/z1)),(int(x3/z3),int(y3/z3)), (0,205,100), 4)
+        cv2.line(arTag,(int(x2/z2),int(y2/z2)),(int(x4/z4),int(y4/z4)), (200,50,0), 4)
         cv2.line(arTag,(int(x3/z3),int(y3/z3)),(int(x4/z4),int(y4/z4)), (0,255,255), 4)
-        cv2.line(arTag,(int(x5/z5),int(y5/z5)),(int(x6/z6),int(y6/z6)), (0,255,255), 4)
-        cv2.line(arTag,(int(x5/z5),int(y5/z5)),(int(x7/z7),int(y7/z7)), (0,255,255), 4)
-        cv2.line(arTag,(int(x6/z6),int(y6/z6)),(int(x8/z8),int(y8/z8)), (0,255,255), 4)
-        cv2.line(arTag,(int(x7/z7),int(y7/z7)),(int(x8/z8),int(y8/z8)), (0,255,255), 4)
+        cv2.line(arTag,(int(x5/z5),int(y5/z5)),(int(x6/z6),int(y6/z6)), (100,0,255), 4)
+        cv2.line(arTag,(int(x5/z5),int(y5/z5)),(int(x7/z7),int(y7/z7)), (0,0,255), 4)
+        cv2.line(arTag,(int(x6/z6),int(y6/z6)),(int(x8/z8),int(y8/z8)), (255,0,0), 4)
+        cv2.line(arTag,(int(x7/z7),int(y7/z7)),(int(x8/z8),int(y8/z8)), (0,0,100), 4)
                               
         
 
