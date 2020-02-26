@@ -131,7 +131,7 @@ contains maximum number of white pixels or black
 \end{enumerate}
 \begin{center}
 
-    \includegraphics[scale=0.25] {tag detection.png}
+    \includegraphics[scale=0.2]{tag detection.png}
 
     
 \end{center}
@@ -161,9 +161,13 @@ video since there is no flip or disorientation of the image with the changing or
 \end{enumerate}
 \begin{center}
 
-    \includegraphics[scale=0.7]{perspectiveProjection.png}
-
+    \includegraphics[scale=0.5]{perspectiveProjection.png}
+    \includegraphics[scale=0.25]{Lena1.png}
+    \includegraphics[scale=0.25]{Lena2.png}
+    \includegraphics[scale=0.25]{Lena3.png}
+    \includegraphics[scale=0.25]{Lena4.png}
     
+
 \end{center}
 \subsection{Placing a virtual cube on the tag}
 Augmented reality applications generally place 3D objects onto the real world, which maintain the three
@@ -180,6 +184,16 @@ This is the process of “projecting” a 3D shape onto a 2D image.
 referred from the supplementary provided.
     \item The cube is then drawn using cv2.drawContours
 \end{enumerate}
+\begin{center}
+
+    \includegraphics[scale=0.25]{cube1.png}
+    \includegraphics[scale=0.25]{cube2.png}
+    \includegraphics[scale=0.25]{cube3.png}
+    \includegraphics[scale=0.25]{cube4.png}
+    
+
+    
+\end{center}
 \section{Problems Encountered}
 \begin{enumerate}
     \item For the corner detection of the AR tag first we were trying to use Harris corner and goodfeaturestotrack algorithm but the problem was that the corner points output which these were returning are randomly organised so it was difficult to separate and say to which contours they belong,as there can be contour of the white paper and other unwanted detection's are possible.So we used cv2.findContours from which the unwanted contour can be discarded using the hierarchy of contours which this function returns
