@@ -94,18 +94,14 @@ The process of the edge and corner detection has been implemented in the followi
     \item  Then the blurred frames are converted into grayscale.
     \item  A threshold is applied on the grayscale image from 240-255.
     \item  Contours are found using the findcontour function on the thresholded frame.
-    \item  Using the arcLength and approxpolydp function the corners of all the contours are estimated.
-    \item  To check the real corners compensation is applied by checking which set of corners have the black
-border inside them due to the AR-Tag. Area of the contour was also a parameter used for rejecting
-unwanted contours.
+    \item  Area and hierarchy of Contours found  are used to eliminate some of the unwanted corner points found.
+    \item  Using the convexhull, arcLength and approxpolydp function the corners of all the AR tag contours are estimated.
+    \item  To check the order of corners in a contour of an AR tag found ,so as to use the corresponding world frame point we use a geometrical approach
 \begin{enumerate}
-\item The pixels around the corner are looked up so as to determine if the corner is top left, top right,
-bottom left or bottom right.
-\item The main concept used is that the inner pixels of a contour should be black(borders of AR-Tag).
-\item Apart from the tag contours all other contours have been eliminated and the corners detected
-have been used for further processes.
+\item The x coordinates of corners in an AR tag found is sorted and left positions of the corners are fixed.
+\item The right position of the corners are fixed by calculating the distance between left corners and the order of corners are derived so as to map the corresponding coordinates in world frame
 \end{enumerate}
-    \item  Thus we get only one set of corners for each AR-Tag present in the video, and hence we have successfully
+    \item  Thus we get only one set of corners in a correct order for each AR-Tag present in the video, and hence we have successfully
 extracted the AR-Tags from the video.
 \end{enumerate}
 % Example Subsubsection
@@ -133,7 +129,12 @@ contains maximum number of white pixels or black
     \item  Once we have the angle of rotation we find the value of tag ID through the 2x2 matrix in between.
     \item  We get the tag in the actual rotation and check the inner 2x2 value for zeros and ones.
 \end{enumerate}
+\begin{center}
 
+    \includegraphics[scale=0.25] {tag detection.png}
+
+    
+\end{center}
 \section{Problem 2}
 
 \subsection{Superimposing an image onto the tag}
@@ -158,7 +159,12 @@ simply replaced by the corresponding pixels of the world frame
     \item The orientation of the image/template matches to that of the AR tag which is clearly observed in the
 video since there is no flip or disorientation of the image with the changing orientation of the camera.
 \end{enumerate}
+\begin{center}
 
+    \includegraphics[scale=0.7]{perspectiveProjection.png}
+
+    
+\end{center}
 \subsection{Placing a virtual cube on the tag}
 Augmented reality applications generally place 3D objects onto the real world, which maintain the three
 dimensional properties such as rotation and scaling as you move around the “object” with your camera. In
