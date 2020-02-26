@@ -126,29 +126,35 @@ while(cap.isOpened()):
         if(tagGrid[2][2] == 0 and tagGrid[2][5] == 0 and tagGrid[5][2] == 0 and tagGrid[5][5] == 1):
             orientation = 0
             Id = tagGrid[3][3]*1 + tagGrid[4][3]*8 + tagGrid[4][4]*4 + tagGrid[3][4]*2
+            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [0,lenaImage.shape[0]-1,lenaImage.shape[0]-1,0]
             qreference_corners_y = [0,0,lenaImage.shape[0]-1,lenaImage.shape[0]-1]
         elif(tagGrid[2][2] == 1 and tagGrid[2][5] == 0 and tagGrid[5][2] == 0 and tagGrid[5][5] == 0):
             orientation = 180
             Id = tagGrid[3][3]*4 + tagGrid[4][3]*2 + tagGrid[4][4] + tagGrid[3][4]*8
+            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [lenaImage.shape[0]-1,0,0,lenaImage.shape[0]-1]
             reference_corners_y = [lenaImage.shape[0]-1,lenaImage.shape[0]-1,0,0]
         elif(tagGrid[2][2] == 0 and tagGrid[2][5] == 1 and tagGrid[5][2] == 0 and tagGrid[5][5] == 0):
             orientation = 90
             Id = tagGrid[3][3]*2 + tagGrid[3][4]*4 + tagGrid[4][4]*8 + tagGrid[4][3]*1
+            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [lenaImage.shape[0]-1,lenaImage.shape[0]-1,0,0]
             reference_corners_y = [0,lenaImage.shape[0]-1,lenaImage.shape[0]-1,0]
         elif(tagGrid[2][2] == 0 and tagGrid[2][5] == 0 and tagGrid[5][2] == 1 and tagGrid[5][5] == 0):
             orientation = -90
             Id = tagGrid[3][3]*8 + tagGrid[3][4] + tagGrid[4][4]*2 + tagGrid[4][3]*4
+            cv2.putText(arTag, str(int(Id)), ((int(corner_points_x[0]-50), int(corner_points_y[0]-50))), cv2.FONT_ITALIC, 2, (255,0,255),3)
             # rotatedLena = imutils.rotate_bound(lenaImage, orientation)
             reference_corners_x = [0,0,lenaImage.shape[0]-1,lenaImage.shape[0]-1]
             reference_corners_y = [lenaImage.shape[0]-1,0,0,lenaImage.shape[0]-1]
         else:
             orientation = None
+
+        #print(Id)
         
         A  = np.array([
                    [ corner_points_x[0], corner_points_y[0], 1 , 0  , 0 , 0 , -reference_corners_x[0]*corner_points_x[0], -reference_corners_x[0]*corner_points_y[0], -reference_corners_x[0]],
@@ -203,7 +209,7 @@ while(cap.isOpened()):
         K = np.transpose(K)
         K_inv = np.linalg.inv(K)
         lamda = 1/((np.linalg.norm(np.dot(K_inv,h1))+np.linalg.norm(np.dot(K_inv,h2)))/2)
-        Btilde = np.dot(K_inv,H)
+        Btilde = np.dot(K_inv,H_inverse)
         if np.linalg.det(Btilde)>0:
             B = Btilde
         else:
